@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Typography, Button, Paper, Container } from "@mui/material";
+import { useMediaQuery, useTheme } from "@mui/material";
 import Board from "./Board";
 
 const Game = () => {
@@ -7,6 +8,9 @@ const Game = () => {
   const [xIsNext, setXIsNext] = useState(true);
   const [winner, setWinner] = useState(null);
   const [isTie, setIsTie] = useState(false);
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const handleClick = (index) => {
     if (winner || board[index] || isTie) return;
@@ -58,15 +62,30 @@ const Game = () => {
     <Container>
       <Paper
         elevation={3}
-        sx={{ padding: 4, marginTop: 4, textAlign: "center" }}
+        sx={{
+          padding: isMobile ? 2 : 4,
+          marginTop: isMobile ? 2 : 4,
+          textAlign: "center",
+        }}
       >
-        <Typography variant="h4" gutterBottom>
+        <Typography variant={isMobile ? "h5" : "h4"} gutterBottom>
           Tic-Tac-Toe
         </Typography>
-        <Board board={board} onClick={handleClick} />
+        <Board board={board} onClick={handleClick} isMobile={isMobile} />
         <Typography
-          variant="h6"
-          sx={{ mt: 2, color: winner ? "#f50057" : "#3f51b5" }}
+          variant={isMobile ? "subtitle1" : "h6"}
+          sx={{
+            mt: 2,
+            color: winner
+              ? winner === "X"
+                ? "red"
+                : "blue"
+              : isTie
+              ? "black"
+              : xIsNext
+              ? "red"
+              : "blue",
+          }}
         >
           {winner
             ? `Winner: ${winner}`

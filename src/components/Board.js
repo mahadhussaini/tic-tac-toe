@@ -1,22 +1,34 @@
 import React from "react";
-import { Grid } from "@mui/material";
+import { Box } from "@mui/material";
 import Square from "./Square";
 
-const Board = ({ board, onClick }) => {
-  const renderSquare = (index) => {
-    return <Square value={board[index]} onClick={() => onClick(index)} />;
-  };
+const Board = ({ board, onClick, isMobile }) => {
+  const renderSquare = (i) => (
+    <Square value={board[i]} onClick={() => onClick(i)} />
+  );
 
   return (
-    <Grid container spacing={1} justifyContent="center">
-      {[0, 1, 2].map((row) => (
-        <Grid key={row} container item justifyContent="center" spacing={1}>
-          {renderSquare(row * 3)}
-          {renderSquare(row * 3 + 1)}
-          {renderSquare(row * 3 + 2)}
-        </Grid>
+    <Box
+      sx={{
+        display: "grid",
+        gridTemplateColumns: isMobile ? "repeat(3, 1fr)" : "repeat(3, 100px)",
+        gap: 0.5,
+        border: "1px solid #ccc",
+      }}
+    >
+      {board.map((_, i) => (
+        <Box
+          key={i}
+          sx={{
+            border: "1px solid #ccc",
+            width: isMobile ? "auto" : 100,
+            height: 100,
+          }}
+        >
+          {renderSquare(i)}
+        </Box>
       ))}
-    </Grid>
+    </Box>
   );
 };
 
