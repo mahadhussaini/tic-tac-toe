@@ -1,8 +1,14 @@
 import React from "react";
-import "./App.css";
+import { Container, CssBaseline } from "@mui/material";
+import Game from "./components/Game";
 
-function App() {
-  return <div></div>;
-}
+const App = () => {
+  return (
+    <Container component="main" maxWidth="sm">
+      <CssBaseline />
+      <Game />
+    </Container>
+  );
+};
 
 export default App;
